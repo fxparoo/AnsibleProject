@@ -1,4 +1,4 @@
-# version: 2.1
+version: 2.1
 # commands:
 #   destroy-environment:
 #     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
@@ -81,63 +81,63 @@ jobs:
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build
-#   test-frontend:
-#     docker:
-#       - image: circleci/node:13.8.0
-#     steps:
-#       - checkout
-#       - restore_cache:
-#           keys: [frontend-build]
-#       - run:  
-#           name: Test front-end
-#           command: |
-#             cd frontend
-#             sudo apt install nodejs
-#             npm install
-#             npm run test
-#   test-backend:
-#     docker:
-#       - image: circleci/node:13.8.0
-#     steps:
-#       - checkout
-#       - restore_cache:
-#           keys: [backend-build]
-#       - run:  
-#           name: Test back-end
-#           command: |
-#             cd backend
-#             sudo apt install nodejs
-#             npm install
-#             npm run test  
-#   scan-frontend:
-#     docker:
-#       - image: circleci/node:13.8.0
-#     steps:
-#       - checkout
-#       - restore_cache:
-#           keys: [frontend-build]
-#       - run:  
-#           name: Scan front-end
-#           command: |
-#             cd frontend
-#             npm i
-#             npm audit fix --audit-level=critical --force
-#   scan-backend:
-#     docker:
-#       - image: circleci/node:13.8.0
-#     steps:
-#       - checkout
-#       - restore_cache:
-#           keys: [backend-build]
-#       - run:  
-#           name: Scan back-end
-#           command: |
-#             cd backend
-#             npm i
-#             npm audit fix --audit-level=critical --force
-#       - save_cache:
-#           paths: [backend/node_modules]
-#           key: backend-build 
+  test-frontend:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - checkout
+      - restore_cache:
+          keys: [frontend-build]
+      - run:  
+          name: Test front-end
+          command: |
+            cd frontend
+            sudo apt install nodejs
+            npm install
+            npm run test
+  test-backend:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - checkout
+      - restore_cache:
+          keys: [backend-build]
+      - run:  
+          name: Test back-end
+          command: |
+            cd backend
+            sudo apt install nodejs
+            npm install
+            npm run test  
+  # scan-frontend:
+  #   docker:
+  #     - image: circleci/node:13.8.0
+  #   steps:
+  #     - checkout
+  #     - restore_cache:
+  #         keys: [frontend-build]
+  #     - run:  
+  #         name: Scan front-end
+  #         command: |
+  #           cd frontend
+  #           npm i
+  #           npm audit fix --audit-level=critical --force
+  # scan-backend:
+  #   docker:
+  #     - image: circleci/node:13.8.0
+  #   steps:
+  #     - checkout
+  #     - restore_cache:
+  #         keys: [backend-build]
+  #     - run:  
+  #         name: Scan back-end
+  #         command: |
+  #           cd backend
+  #           npm i
+  #           npm audit fix --audit-level=critical --force
+  #     - save_cache:
+  #         paths: [backend/node_modules]
+  #         key: backend-build 
   
 #   deploy-infrastructure:
 #     docker:
@@ -342,14 +342,14 @@ workflows:
     jobs:
       - build-frontend
       - build-backend
-#       - test-frontend:
-#           requires: [build-frontend]
-#       - test-backend:
-#           requires: [build-backend]
-#       - scan-backend:
-#           requires: [build-backend]
-#       - scan-frontend:
-#           requires: [build-frontend]
+      - test-frontend:
+          requires: [build-frontend]
+      - test-backend:
+          requires: [build-backend]
+      - scan-backend:
+          requires: [build-backend]
+      - scan-frontend:
+          requires: [build-frontend]
 #       - deploy-infrastructure:
 #           requires: [test-frontend, test-backend, scan-frontend, scan-backend]
 #           filters:
